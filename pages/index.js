@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import SearchBar from "../components/navigation-bar/SearchBar";
 import ComicItem from "../components/comics/ComicItem";
+import ComicsList from "../components/comics/ComicsList";
 
 const HomePage = () => {
   const fetchComics = async () => {
@@ -33,7 +34,7 @@ const HomePage = () => {
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
-        <ComicItem />
+        <ComicsList />
       </main>
 
       <footer className={styles.footer}></footer>
