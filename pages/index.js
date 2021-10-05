@@ -6,18 +6,7 @@ import SearchBar from "../components/navigation-bar/SearchBar";
 import ComicItem from "../components/comics/ComicItem";
 import ComicsList from "../components/comics/ComicsList";
 
-const HomePage = () => {
-  const fetchComics = async () => {
-    const response = await fetch(
-      "https://gateway.marvel.com:443/v1/public/comics?apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91",
-      { params: "" }
-    );
-    const data = await response.json();
-    console.log(data);
-    console.log(data.data.results);
-  };
-
-  fetchComics();
+const HomePage = (props) => {
   return (
     <>
       <Head>
@@ -34,13 +23,35 @@ const HomePage = () => {
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
-        <ComicsList />
+        <ComicsList comics={props.comics} />
       </main>
 
       <footer className={styles.footer}></footer>
     </>
   );
 };
+
+export async function getStaticProps() {
+  // fetch data from an API
+  const response = await fetch(
+    "https://gateway.marvel.com:443/v1/public/comics?apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91"
+  );
+  const data = await response.json();
+
+  return {
+    props: {
+      comics: data.data.results.map((comic) => ({
+        id: comic.id,
+        title: comic.title,
+        edition: comic.series.name,
+        creator: comic.creators.items[0]?.name || null,
+        image: comic.images[0]?.path || null,
+        price: comic.prices[0].price,
+      })),
+    },
+    revalidate: 1,
+  };
+}
 
 export default HomePage;
 // export default function Home() {
