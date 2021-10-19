@@ -11,8 +11,6 @@ const ComicsList = (props) => {
   return (
     <div>
       <ul className="grid gap-4 grid-cols-4">{comicList}</ul>
-
-      <h1>Comics Details</h1>
     </div>
   );
 };

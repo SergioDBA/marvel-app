@@ -1,19 +1,16 @@
 import Image from "next/image";
 
 const ComicItem = (props) => {
-  console.log(props.comic.title);
+
+  const src = `${
+    props.comic.image ?? "http://i.annihil.us/u/prod/marvel/i/mg/c/80/5e3d7536c8ada"
+  }/portrait_incredible.jpg`;
+    
+  
+
   return (
     <li className="max-w-xs overflow-hidden rounded-lg shadow-lg h-auto">
-      <Image
-        className="object-cover w-full h-full"
-        src={`${
-          props.comic.image || "/u/prod/marvel/i/mg/c/60/4bc69f11baf75"
-        }/portrait_incredible.jpg`}
-        alt="Comic"
-        width="500"
-        height="500"
-        layout="intrinsic"
-      />
+      <Image loader={() => src} src={src} width={500} height={500} unoptimized='true' alt="comic"/>
       <div className="px-6 py-4">
         <h4 className="mb-3 text-xl font-semibold tracking-tight text-gray-800">
           {props.comic.title}

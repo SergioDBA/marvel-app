@@ -1,10 +1,11 @@
-import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import SearchBar from "../components/navigation-bar/SearchBar";
-import ComicItem from "../components/comics/ComicItem";
-import ComicsList from "../components/comics/ComicsList";
+import Head from 'next/head';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
+import SearchBar from '../components/navigation-bar/SearchBar';
+import ComicItem from '../components/comics/ComicItem';
+import ComicsList from '../components/comics/ComicsList';
+import PaginationBar from '../components/UI/PaginationBar';
 
 const HomePage = (props) => {
   return (
@@ -24,7 +25,10 @@ const HomePage = (props) => {
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
         <ComicsList comics={props.comics} />
+        <PaginationBar/>
       </main>
+
+      
 
       <footer className={styles.footer}></footer>
     </>
@@ -34,7 +38,7 @@ const HomePage = (props) => {
 export async function getStaticProps() {
   // fetch data from an API
   const response = await fetch(
-    "https://gateway.marvel.com:443/v1/public/comics?apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91"
+    'https://gateway.marvel.com:443/v1/public/comics?apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91'
   );
   const data = await response.json();
 
@@ -44,8 +48,8 @@ export async function getStaticProps() {
         id: comic.id,
         title: comic.title,
         edition: comic.series.name,
-        creator: comic.creators.items[0]?.name || null,
-        image: comic.images[0]?.path || null,
+        creator: comic.creators.items[0]?.name ?? null,
+        image: comic.images[0]?.path ?? null,
         price: comic.prices[0].price,
       })),
     },
