@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 
 const numberOfPages = 8;
 
@@ -28,20 +28,29 @@ const pageReducer = (state, action) => {
   }
 };
 
-const PaginationBar = () => {
+const PaginationBar = (props) => {
   const [actualPage, dispatchPageAction] = useReducer(pageReducer, defaultPageState);
+  const{page, pageToChange} = actualPage;
+  const updatePage = props.updatePage;
 
   const nextPageHandler = () => {
     dispatchPageAction({ actionPage: 'NEXT' });
+    // updatePage(page);
   };
   const previousPageHandler = () => {
     dispatchPageAction({ actionPage: 'PREV' });
+    // updatePage(page);
   };
   const selectedPageHandler = (e) => {
     const page = Number(e.target.getAttribute('data-key'));
     dispatchPageAction({ actionPage: 'SELECTED', pageToChange: page });
+    // updatePage(page);
   };
-  console.log('----------------------------------', actualPage.page);
+
+  useEffect(() => {
+    updatePage(page);
+    console.log('UseEffect');
+  }, [updatePage, page]);
 
   const classesUnselected = 'h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100';
   const classesSelected = 'h-10 px-5 text-white transition-colors duration-150 bg-indigo-600 focus:shadow-outline';
@@ -58,7 +67,6 @@ const PaginationBar = () => {
       </button>
     );
   });
-  console.log(paginationNumbers);
   return (
     <nav aria-label="Page navigation" className="m-9 p-2">
       <ul className="inline-flex">

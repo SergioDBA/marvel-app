@@ -6,8 +6,49 @@ import SearchBar from '../components/navigation-bar/SearchBar';
 import ComicItem from '../components/comics/ComicItem';
 import ComicsList from '../components/comics/ComicsList';
 import PaginationBar from '../components/UI/PaginationBar';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 
 const HomePage = (props) => {
+  const comicsPerPage = 16;
+  const [actualPage, setActualPage] = useState(1);
+  const [comics, setComics] = useState(props.comics);
+  const [isLoading, setIsLoading]= useState(false);
+
+  const isTheFisrtLoad = useRef(true);
+
+  const changePageHandler = useCallback((pageNumber) => {
+    console.log(pageNumber, 'Page number');
+    setActualPage(pageNumber);
+  }, []);
+
+  useEffect(() => {
+    if(isTheFisrtLoad.current){
+      isTheFisrtLoad.current=false;
+      return;
+    }
+    setIsLoading(true);
+    const fetchComics = async () => {
+      // fetch data from an API
+      const response = await fetch(
+        `https://gateway.marvel.com:443/v1/public/comics?offset=${(actualPage-1)*comicsPerPage}&limit=${comicsPerPage}&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91`
+      );
+      const data = await response.json();
+      const comics = data.data.results.map((comic) => ({
+        id: comic.id,
+        title: comic.title,
+        edition: comic.series.name,
+        creator: comic.creators.items[0]?.name ?? null,
+        image: comic.images[0]?.path ?? null,
+        price: comic.prices[0].price,
+      }));
+      setComics(comics)
+      console.log('Use effect222', comics);
+    };
+    fetchComics();
+    setIsLoading(false);
+  }, [actualPage]);
+
   return (
     <>
       <Head>
@@ -24,11 +65,10 @@ const HomePage = (props) => {
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
-        <ComicsList comics={props.comics} />
-        <PaginationBar/>
+        {isLoading && <LoadingSpinner/>}
+        <ComicsList comics={comics} />
+        <PaginationBar updatePage={changePageHandler} />
       </main>
-
-      
 
       <footer className={styles.footer}></footer>
     </>
@@ -38,7 +78,7 @@ const HomePage = (props) => {
 export async function getStaticProps() {
   // fetch data from an API
   const response = await fetch(
-    'https://gateway.marvel.com:443/v1/public/comics?apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91'
+    'https://gateway.marvel.com:443/v1/public/comics?limit=16&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91'
   );
   const data = await response.json();
 
