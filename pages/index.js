@@ -22,13 +22,15 @@ const HomePage = (props) => {
     setActualPage(pageNumber);
   }, []);
 
+  
   useEffect(() => {
     if(isTheFisrtLoad.current){
       isTheFisrtLoad.current=false;
       return;
     }
-    setIsLoading(true);
+    
     const fetchComics = async () => {
+      setIsLoading(true);
       // fetch data from an API
       const response = await fetch(
         `https://gateway.marvel.com:443/v1/public/comics?offset=${(actualPage-1)*comicsPerPage}&limit=${comicsPerPage}&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91`
@@ -42,11 +44,11 @@ const HomePage = (props) => {
         image: comic.images[0]?.path ?? null,
         price: comic.prices[0].price,
       }));
-      setComics(comics)
+      setComics(comics);
+      setIsLoading(false);
       console.log('Use effect222', comics);
     };
     fetchComics();
-    setIsLoading(false);
   }, [actualPage]);
 
   return (
@@ -65,8 +67,7 @@ const HomePage = (props) => {
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
-        {isLoading && <LoadingSpinner/>}
-        <ComicsList comics={comics} />
+        {isLoading ? <LoadingSpinner/>:<ComicsList comics={comics} />}
         <PaginationBar updatePage={changePageHandler} />
       </main>
 
