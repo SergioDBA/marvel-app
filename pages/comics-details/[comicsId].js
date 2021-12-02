@@ -1,13 +1,29 @@
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import ComicDetail from '../../components/comics/ComicDetail';
 
-const ComicDetail = (props) => {
+const ComicDetails = (props) => {
   const router = useRouter();
   const comicId = router.query.comicsId;
   return (
+    // <>
+    //   <h1>{props.comics.title}</h1>
+    //   <h2>{comicId}</h2>
+    // </>
     <>
-      <h1>{props.comics.title}</h1>
-      <h2>{comicId}</h2>
-    </>
+    <Head>
+      <title>{props.comics.title}</title>
+      <meta name='description' content={props.comics.edition} />
+    </Head>
+    <ComicDetail
+      id={props.comics.id}
+      title={props.comics.title}
+      edition={props.comics.edition}
+      creator={props.comics.creator}
+      image={props.comics.image}
+      price={props.comics.price}   
+    />
+  </>
   );
 };
 
@@ -52,4 +68,4 @@ export async function getStaticProps(context) {
   };
 }
 
-export default ComicDetail;
+export default ComicDetails;

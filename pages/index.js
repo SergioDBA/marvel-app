@@ -1,9 +1,5 @@
-import Head from 'next/head';
 import Link from 'next/link';
-import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import SearchBar from '../components/navigation-bar/SearchBar';
-import ComicItem from '../components/comics/ComicItem';
 import ComicsList from '../components/comics/ComicsList';
 import PaginationBar from '../components/UI/PaginationBar';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -13,8 +9,7 @@ const HomePage = (props) => {
   const comicsPerPage = 16;
   const [actualPage, setActualPage] = useState(1);
   const [comics, setComics] = useState(props.comics);
-  const [isLoading, setIsLoading]= useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const isTheFisrtLoad = useRef(true);
 
   const changePageHandler = useCallback((pageNumber) => {
@@ -22,18 +17,19 @@ const HomePage = (props) => {
     setActualPage(pageNumber);
   }, []);
 
-  
   useEffect(() => {
-    if(isTheFisrtLoad.current){
-      isTheFisrtLoad.current=false;
+    if (isTheFisrtLoad.current) {
+      isTheFisrtLoad.current = false;
       return;
     }
-    
+
     const fetchComics = async () => {
       setIsLoading(true);
       // fetch data from an API
       const response = await fetch(
-        `https://gateway.marvel.com:443/v1/public/comics?offset=${(actualPage-1)*comicsPerPage}&limit=${comicsPerPage}&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91`
+        `https://gateway.marvel.com:443/v1/public/comics?offset=${
+          (actualPage - 1) * comicsPerPage
+        }&limit=${comicsPerPage}&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91`
       );
       const data = await response.json();
       const comics = data.data.results.map((comic) => ({
@@ -53,21 +49,10 @@ const HomePage = (props) => {
 
   return (
     <>
-      <Head>
-        <title>Marvel App</title>
-        <meta name="description" content="Comics store" />
-      </Head>
-      <header>
-        <h1>Title</h1>
-      </header>
-      <nav>
-        <SearchBar />
-      </nav>
-
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
-        {isLoading ? <LoadingSpinner/>:<ComicsList comics={comics} />}
+        {isLoading ? <LoadingSpinner /> : <ComicsList comics={comics} />}
         <PaginationBar updatePage={changePageHandler} />
       </main>
 
