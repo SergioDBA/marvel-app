@@ -4,6 +4,7 @@ import ComicsList from '../components/comics/ComicsList';
 import PaginationBar from '../components/UI/PaginationBar';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
+import Cart from '../components/Cart/Cart';
 
 const HomePage = (props) => {
   const comicsPerPage = 16;
@@ -11,6 +12,16 @@ const HomePage = (props) => {
   const [comics, setComics] = useState(props.comics);
   const [isLoading, setIsLoading] = useState(false);
   const isTheFisrtLoad = useRef(true);
+
+  const [cartIsShown, setCartIsShown] = useState(false);
+
+  const showCartHandler = () => {
+    setCartIsShown(true);
+  };
+
+  const hideCartHandler = () => {
+    setCartIsShown(false);
+  };
 
   const changePageHandler = useCallback((pageNumber) => {
     console.log(pageNumber, 'Page number');
@@ -49,6 +60,8 @@ const HomePage = (props) => {
 
   return (
     <>
+
+      <Cart></Cart>
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
@@ -67,6 +80,7 @@ export async function getStaticProps() {
     'https://gateway.marvel.com:443/v1/public/comics?limit=16&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91'
   );
   const data = await response.json();
+  console.log('22222',data, response.status);
 
   return {
     props: {

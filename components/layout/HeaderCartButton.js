@@ -3,7 +3,7 @@ import CartIcon from '../Cart/CartIcon';
 
 const HeaderCartButton = (props) => {
   return (
-    <button className='cursor-pointer border-none bg-purple-500	text-white py-3 px-12 flex justify-around items-center rounded-3xl font-bold'>
+    <button className='cursor-pointer border-none bg-purple-500	text-white py-3 px-12 flex justify-around items-center rounded-3xl font-bold' onClick={props.onClick}>
       <span className='w-5 h-5 m-2'>
         <CartIcon />
       </span>

@@ -52,6 +52,8 @@ export async function getStaticProps(context) {
   const response = await fetch(
     `https://gateway.marvel.com:443/v1/public/comics/${context.params.comicsId}?apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91`
   );
+  console.log('status comic item' ,response.status);
+  
   const data = await response.json();
   return {
     props: {

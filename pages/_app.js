@@ -6,11 +6,15 @@ import Layout from '../components/layout/Layout';
 
 function MyApp({ Component, pageProps }) {
   return (
+    <>
     <Provider store={store}>
       <Layout>
         <Component {...pageProps} />
+       
       </Layout>
     </Provider>
+     <div id='overlays'></div>
+     </>
   );
 }
 
