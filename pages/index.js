@@ -13,7 +13,7 @@ const HomePage = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const isTheFisrtLoad = useRef(true);
 
-  const [cartIsShown, setCartIsShown] = useState(false);
+  
 
   const showCartHandler = () => {
     setCartIsShown(true);
@@ -61,7 +61,6 @@ const HomePage = (props) => {
   return (
     <>
 
-      <Cart></Cart>
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import ComicItemForm from './ComicItemForm';
 
 const ComicItem = (props) => {
   const src = `${props.comic.image ?? 'http://i.annihil.us/u/prod/marvel/i/mg/c/80/5e3d7536c8ada'}/portrait_incredible.jpg`;
@@ -31,18 +32,7 @@ const ComicItem = (props) => {
           <p className="leading-normal text-gray-700">{props.comic.price}</p>
         </div>
         <div className="mt-5 flex justify-center items-center">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Amount</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="Amount"
-              type="text"
-              placeholder="Amount"
-            />
-          </div>
-          <button className="mx-8 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center">
-            add
-          </button>
+          <ComicItemForm/>
         </div>
       </div>
     </li>

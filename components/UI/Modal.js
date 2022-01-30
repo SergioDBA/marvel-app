@@ -16,13 +16,6 @@ const ModalOverlay = (props) => {
 
 
 const Modal = (props) => {
-    let portalElement;
-    useEffect(() => {
-        if (document) {
-            portalElement = document.getElementById("overlays");
-            console.log(portalElement)
-        }
-      }, []);
   return (
     <>
       {<Backdrop onClose={props.onClose} />}
