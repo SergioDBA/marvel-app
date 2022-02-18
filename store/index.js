@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import isLoadingReducer from './items'
-import itemsCountsReducer from './items'
+import { configureStore } from "@reduxjs/toolkit";
+import isLoadingReducer from "./load";
+import itemsReducer from "./items";
 
 const store = configureStore({
-  reducer: { load: isLoadingReducer, itemsCount: itemsCountsReducer },
+  reducer: { load: isLoadingReducer, items: itemsReducer },
 });
 
 export default store;

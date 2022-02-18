@@ -1,35 +1,7 @@
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import ComicItemForm from "../comics/ComicItemForm";
 import Image from "next/image";
-import ComicItemForm from "./ComicItemForm";
-import { itemsActions } from "../../store/items";
 
-const ComicItem = (props) => {
-  const dispatch = useDispatch();
-
-  const src = `${
-    props.comic.image ??
-    "http://i.annihil.us/u/prod/marvel/i/mg/c/80/5e3d7536c8ada"
-  }/portrait_incredible.jpg`;
-
-  const router = useRouter();
-
-  const showDetailHandler = () => {
-    router.push("/comics-details/" + props.comic.id);
-    props.onOpenComic();
-  };
-
-  const addToCartHandler = (amount) => {
-    dispatch(
-      itemsActions.addItem({
-        id: props.comic.id,
-        name: props.comic.title,
-        amount: amount,
-        price: props.comic.price,
-      })
-    );
-  };
-
+const Card = (props) => {
   return (
     <li className="max-w-xs overflow-hidden rounded-lg shadow-lg h-auto">
       <Image
@@ -59,4 +31,4 @@ const ComicItem = (props) => {
   );
 };
 
-export default ComicItem;
+export default Card;

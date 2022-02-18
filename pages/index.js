@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import styles from '../styles/Home.module.css';
-import ComicsList from '../components/comics/ComicsList';
-import PaginationBar from '../components/UI/PaginationBar';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
-import Cart from '../components/Cart/Cart';
+import Link from "next/link";
+import styles from "../styles/Home.module.css";
+import ComicsList from "../components/comics/ComicsList";
+import PaginationBar from "../components/UI/PaginationBar";
+import { useCallback, useEffect, useRef, useState } from "react";
+import LoadingSpinner from "../components/UI/LoadingSpinner";
+import Cart from "../components/Cart/Cart";
 
 const HomePage = (props) => {
   const comicsPerPage = 16;
@@ -12,8 +12,6 @@ const HomePage = (props) => {
   const [comics, setComics] = useState(props.comics);
   const [isLoading, setIsLoading] = useState(false);
   const isTheFisrtLoad = useRef(true);
-
-  
 
   const showCartHandler = () => {
     setCartIsShown(true);
@@ -24,7 +22,7 @@ const HomePage = (props) => {
   };
 
   const changePageHandler = useCallback((pageNumber) => {
-    console.log(pageNumber, 'Page number');
+    console.log(pageNumber, "Page number");
     setActualPage(pageNumber);
   }, []);
 
@@ -53,14 +51,13 @@ const HomePage = (props) => {
       }));
       setComics(comics);
       setIsLoading(false);
-      console.log('Use effect222', comics);
+      console.log("Use effect222", comics);
     };
     fetchComics();
   }, [actualPage]);
 
   return (
     <>
-
       <main className={styles.main}>
         <Link href="/comics-details">comics detail link</Link>
         <article>Content</article>
@@ -76,10 +73,10 @@ const HomePage = (props) => {
 export async function getStaticProps() {
   // fetch data from an API
   const response = await fetch(
-    'https://gateway.marvel.com:443/v1/public/comics?limit=16&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91'
+    "https://gateway.marvel.com:443/v1/public/comics?limit=16&apikey=15a2acbec4c418d7142db4d36234dfac&ts=1000&hash=2e402a78ec28b36718e483c475478d91"
   );
   const data = await response.json();
-  console.log('22222',data, response.status);
+  console.log("22222", data, response.status);
 
   return {
     props: {
@@ -89,7 +86,7 @@ export async function getStaticProps() {
         edition: comic.series.name,
         creator: comic.creators.items[0]?.name ?? null,
         image: comic.images[0]?.path ?? null,
-        price: comic.prices[0].price,
+        price: comic.prices[0].price === 0 ? 1.99 : comic.prices[0].price,
       })),
     },
     revalidate: 1,
